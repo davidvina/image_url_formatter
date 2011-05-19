@@ -1,1 +1,6 @@
 name = Image URL Formatter
+description = "Add an URL formatter for image field"
+core = 7.x
+dependencies[] = field
+dependencies[] = image
+files[] = image_url_formatter.module
