@@ -13,8 +13,8 @@ function image_url_formatter_theme() {
     'image_url_formatter' => array(
       'variables' => array(
         'item' => NULL, 
-				'path' => NULL, 
-				'image_style' => NULL,
+        'path' => NULL, 
+        'image_style' => NULL,
       ),
     ),
   );
@@ -103,10 +103,10 @@ function image_url_formatter_field_formatter_settings_summary($field, $instance,
  */
 function image_url_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-	
+
   switch ($display['type']) {
     case 'image_url':
-		  // Check if the formatter involves a link.
+      // Check if the formatter involves a link.
       if ($display['settings']['image_link'] == 'content') {
         $uri = entity_uri($entity_type, $entity);
       }
@@ -121,7 +121,7 @@ function image_url_formatter_field_formatter_view($entity_type, $entity, $field,
             'options' => array(),
           );
         }
-				//debug($item);
+        //debug($item);
         $element[$delta] = array(
           '#theme' => 'image_url_formatter',
           '#item' => $item,
@@ -160,9 +160,9 @@ function theme_image_url_formatter($variables) {
   }
   $output = file_create_url($item['uri']);
   if ($variables['image_style']) {
-	  //debug($image);
+    //debug($image);
     $image['style_name'] = $variables['image_style'];
-		$output = image_style_url($image['style_name'], $item['uri']);
+    $output = image_style_url($image['style_name'], $item['uri']);
   }
   if ($variables['path']) {
     $path = $variables['path']['path'];
