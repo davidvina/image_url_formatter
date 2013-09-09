@@ -37,7 +37,11 @@ function image_url_formatter_field_formatter_info() {
     'image_url' => array(
       'label' => t('Image URL'),
       'field types' => array('image', 'imagefield_crop'),
-      'settings' => array('image_style' => '', 'image_link' => ''),
+      'settings' => array(
+        'url_type' => '',
+        'image_style' => '',
+        'image_link' => '',
+      ),
     ),
   );
 
