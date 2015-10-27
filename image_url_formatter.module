@@ -4,6 +4,8 @@
  * @file
  * Add an URL formatter for image field
  */
+use Drupal\Component\Utility\Unicode;
+use Drupal\image\Entity\ImageStyle;
 
 
 /**
@@ -14,7 +16,7 @@ function image_url_formatter_theme() {
     'image_url_formatter' => array(
       'variables' => array(
         'item' => NULL,
-        'path' => NULL,
+        'url' => NULL,
         'image_style' => NULL,
         'url_type' => NULL,
       ),
@@ -33,18 +35,17 @@ function image_url_formatter_theme() {
  *
  * @ingroup themeable
  */
-function theme_image_url_formatter($variables) {
+function template_preprocess_image_url_formatter(&$variables) {
   $item = $variables['item'];
-
-  // Do not output an empty 'title' attribute.
-  if (isset($item['title']) && drupal_strlen($item['title']) == 0) {
-    unset($item['title']);
-  }
-  
-  $output = file_create_url($item['uri']);
+ // drupal_set_message(var_export($item,true));
+  $output = $item->entity->url();
+  //drupal_set_message('entity->url:' .  $output);
   if ($variables['image_style']) {
     $image['style_name'] = $variables['image_style'];
-    $output = image_style_url($image['style_name'], $item['uri']);
+	//drupal_set_message('style_name:' .  $image['style_name']);
+    $output = ImageStyle::load($image['style_name'])->buildUrl($item->entity->getFileUri());
+	//drupal_set_message('output:' .  $output);
+	//drupal_set_message('item uri:' .   $item->entity->getFileUri());
   }
   
   $url_type = isset($variables['']) ? $variables['image_style'] : 0;
@@ -63,8 +64,7 @@ function theme_image_url_formatter($variables) {
     $options = isset($variables['path']['options']) ? $variables['path']['options'] : array();
     // When displaying an image inside a link, the html option must be TRUE.
     $options['html'] = TRUE;
-    $output = l($output, $path, $options);
+    $output = \Drupal::l($output, $path, $options);
   }
-
-  return $output;
+  $variables['image'] = $output;
 }
